@@ -32,6 +32,25 @@ fetch("datos/histograma.json")
 });
 
 
+let comAuto = [];
+let datosCom = [];
+fetch("datos/tarta.json")
+.then(respuesta => respuesta.json())
+.then(e =>  {
+    for(let indexes of e) {
+        //console.log(indexes);
+
+        //labels.push(indexes.Nombre);
+        comAuto.push(indexes.Resultados)
+        datosCom.push(indexes.field2)
+        barsColors.push(getRandomColor());
+
+    }
+    crearChart2();
+
+});
+
+
 //console.log(labels);
 console.log(nombreProvincia);
 console.log(datos);
@@ -59,25 +78,27 @@ function crearChart() {
             }
         }
     });
+}
 
+//ODS
+function crearChart2() {
     new Chart("pie-chart", {
         type: "pie",//pie
         data: {
-            labels: nombreProvincia, //nombre provincias
+            labels: comAuto,//nombreProvincia, //nombre provincias
             datasets: [{
                 label: "Población",
                 backgroundColor: barsColors,
-                data: datos
+                data: datosCom
             }]
         },
         options: {
             title: {
-                display: true,
+                display: false,
                 text: "Tasa de paro"
             }
         }
     });
-    
 }
 
 /**
